@@ -1,22 +1,16 @@
 #!/bin/bash
 
-echo
-echo "┌───────────────────────┐"
-echo "│ Linux Hardening Audit │"
-echo "└───────────────────────┘"
-echo
-
-# SSH
-
+# Service
 check_ssh_enabled() {
 	if [[ $(systemctl is-active ssh) == "active" ]]; then
-		echo -e "\e[31m[WARNING]\e[0m SSH service is running"	
+		echo -e "\e[31m[WARNING]\e[0m SSH service is running"
 	else
 		echo -e "\e[32m[INFO]\e[0m SSH service is not running"
 	fi
 	echo
 }
 
+# PermitRootLogin
 check_permit_root_login() {
 	local config="/etc/ssh/sshd_config"
 	if grep -qE '^PermitRootLogin\s+yes' "$config"; then
@@ -27,6 +21,7 @@ check_permit_root_login() {
 	echo
 }
 
+# PasswordAuthentication
 check_password_auth() {
         local config="/etc/ssh/sshd_config"
         if grep -qE '^PasswordAuthentication\s+yes' "$config"; then
@@ -37,6 +32,7 @@ check_password_auth() {
 	echo
 }
 
+# PubkeyAuthentication
 check_pubkey_auth() {
 	local config="/etc/ssh/sshd_config"
 	if grep -qE '^PubkeyAuthentication\s+yes' "$config"; then
@@ -47,6 +43,7 @@ check_pubkey_auth() {
 	echo
 }
 
+# PermitEmptyPasswords
 check_empty_pass() {
 	local config="/etc/ssh/sshd_config"
 	if grep -qE '^PermitEmptyPasswords\s+yes' "$config"; then
@@ -57,6 +54,7 @@ check_empty_pass() {
 	echo
 }
 
+# MaxAuthTries
 check_auth_tries() {
 	local config="/etc/ssh/sshd_config"
 	local count
@@ -73,6 +71,7 @@ check_auth_tries() {
 	echo
 }
 
+# Port
 check_ssh_port() {
         local config="/etc/ssh/sshd_config"
 	if grep -E '^Port\s+[0-9]+' "$config" | grep -vwq "22"; then
@@ -84,6 +83,7 @@ check_ssh_port() {
 	echo
 }
 
+# ListenAddress
 check_ssh_listen_addr() {
 	local config="/etc/ssh/sshd_config"
 	local address
@@ -100,15 +100,4 @@ check_ssh_listen_addr() {
 	echo
 
 }
-
-
-
-check_ssh_enabled
-check_permit_root_login
-check_password_auth
-check_pubkey_auth
-check_empty_pass
-check_auth_tries
-check_ssh_port
-check_ssh_listen_addr
 
