@@ -57,3 +57,15 @@ check_sudo_privileges() {
 	echo
 }
 
+# Home directories writable
+check_home_dirs() {
+	dirs=$(ls -l /home | grep -E 'd[rwx-]{6}[r-][w][x-]')
+	if [[ -n $dirs ]]; then
+		echo -e "\e[31m[WARNING]\e[0m Home directories writable for other users:"
+		echo $dirs
+	else
+		echo -e "\e[32m[INFO]\e[0m No home directories writable for other users"
+	fi
+	echo
+}
+

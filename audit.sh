@@ -32,10 +32,27 @@ case $option in
 		check_empty_passwords
 		check_password_policy
 		check_sudo_privileges
+		check_home_dirs
 		;;
+	all)
+                check_ssh_enabled
+                check_permit_root_login
+                check_password_auth
+                check_pubkey_auth
+                check_empty_pass
+                check_auth_tries
+                check_ssh_port
+                check_ssh_listen_addr
+                check_zero_uid
+                check_empty_passwords
+                check_password_policy
+                check_sudo_privileges
+                check_home_dirs
+		;;
+
 	*)
 		echo "Usage: ./audit.sh <module>"
-		echo "Modules: ssh, users"
+		echo "Modules: ssh, users, all"
 		;;
 esac
 
