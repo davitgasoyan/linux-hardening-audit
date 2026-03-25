@@ -37,7 +37,7 @@ case $option in
 		;;
 	firewall)
 		check_firewall_status
-
+		check_input_policy
 		;;
 	all)
                 check_ssh_enabled
