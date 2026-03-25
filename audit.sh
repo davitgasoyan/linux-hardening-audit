@@ -7,6 +7,7 @@ fi
 
 source modules/ssh.sh
 source modules/users.sh
+source modules/firewall.sh
 
 echo
 echo "┌───────────────────────┐"
@@ -34,6 +35,10 @@ case $option in
 		check_sudo_privileges
 		check_home_dirs
 		;;
+	firewall)
+		check_firewall_status
+
+		;;
 	all)
                 check_ssh_enabled
                 check_permit_root_login
@@ -52,7 +57,7 @@ case $option in
 
 	*)
 		echo "Usage: ./audit.sh <module>"
-		echo "Modules: ssh, users, all"
+		echo "Modules: ssh, users, firewall, all"
 		;;
 esac
 
