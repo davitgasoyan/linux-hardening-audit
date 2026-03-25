@@ -1,7 +1,11 @@
 #!/bin/bash
 
+RED="\e[31m"
+GREEN="\e[32m"
+NC="\e[0m"
+
 if [[ "$EUID" -ne 0 ]]; then
-	echo -e "\e[31m[ERROR]\e[0m This script must be run as root"
+	echo -e "${RED}[ERROR]${NC} This script must be run as root"
 	exit 1
 fi
 
@@ -10,9 +14,9 @@ source modules/users.sh
 source modules/firewall.sh
 
 echo
-echo "┌───────────────────────┐"
-echo "│ Linux Hardening Audit │"
-echo "└───────────────────────┘"
+echo -e "\e[33m┌───────────────────────┐\e[0m"
+echo -e "\e[33m│ Linux Hardening Audit │\e[0m"
+echo -e "\e[33m└───────────────────────┘\e[0m"
 echo
 
 option=$1
@@ -53,11 +57,13 @@ case $option in
                 check_password_policy
                 check_sudo_privileges
                 check_home_dirs
+                check_firewall_status
+                check_input_policy
 		;;
 
 	*)
-		echo "Usage: ./audit.sh <module>"
-		echo "Modules: ssh, users, firewall, all"
+		echo -e "\e[34mUsage:\e[0m   ./audit.sh \e[36m<module>\e[0m"
+		echo -e "\e[34mModules:\e[0m \e[36mssh, users, firewall, all\e[0m"
 		;;
 esac
 
